@@ -106,7 +106,7 @@ cd /usr/share/icons/Flat-Remix
 cp -R Flat\ Remix ../Flat\ Remix
 
 # Elementary Add
-git clone --progress --verbose https://github.com/varlesh/elementary-add.git /u$
+git clone --progress --verbose https://github.com/varlesh/elementary-add.git /usr/share/icons/elementary-add-holing
 cd /usr/share/icons/elementary-add-holding
 cp -R elementary-* ../
 cd ../ && rm -rf elementary-add-holding

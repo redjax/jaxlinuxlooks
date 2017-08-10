@@ -19,3 +19,13 @@ git clone --progress --verbose https:/github.com/AlbertoDorado/droid-sans-mono-z
 
 # Google Fonts
 git clone --progress --verbose https:/github.com/google/fonts.git /home/jack/Downloads/test/
+
+# Intel ClearSans
+cd /home/jack/Downloads/
+wget https://01.org/sites/default/files/downloads/clear-sans/clearsans-1.00.zip
+
+unzip clearsans*.zip -d clearsans
+sudo cp -R clearsans /usr/share/fonts/
+
+rm -rf clearsans
+rm clearsans-*.zip
