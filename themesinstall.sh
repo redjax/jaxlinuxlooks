@@ -1,13 +1,18 @@
 #!/bin/bash
 
+gitcl="git clone --progress --verbose"
+themesfolder="/usr/share/themes"
+iconsfolder="/usr/share/icons"
+fontsfolder="/usr/share/fonts"
+
 # Cursors
 
 # La Capitaine
 #dnf copr enable tcg/themes
 #dnf install la-capitaine-cursor-theme
 
-git clone --progress --verbose https://github.com/keeferrourke/capitaine-cursors.git ~/home/Downloads/la-capitaine-cursor
-cp -pr ~/home/Downloads/la-capitaine-cursor-theme/bin/xcursor /usr/share/icons/capitaine-cursors
+$gitcl https://github.com/keeferrourke/capitaine-cursors.git ~/home/Downloads/la-capitaine-cursor
+cp -pr ~/home/Downloads/la-capitaine-cursor-theme/bin/xcursor $iconsfolder/capitaine-cursors
 
 # ----------------------------------------------------------------------------------------
 
@@ -17,100 +22,98 @@ cp -pr ~/home/Downloads/la-capitaine-cursor-theme/bin/xcursor /usr/share/icons/c
 gsettings set  org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:'
 
 # Xenlism Minimalism
-git clone --progress --verbose https://github.com/xenlism/minimalism /usr/share/themes/Xenlism-Minimalism
+$gitcl https://github.com/xenlism/minimalism $themesfolder/Xenlism-Minimalism
 
 # Flat Remix
-git clone --progress --verbose https://github.com/daniruiz/Flat-Remix-GNOME-theme.git /usr/share/themes/Flat-Remix
+$gitcl https://github.com/daniruiz/Flat-Remix-GNOME-theme.git $themesfolder/Flat-Remix
 
 # Arc
-git clone --progress --verbose https://github.com/horst3180/arc-theme.git /usr/share/themes/Arc
+$gitcl https://github.com/horst3180/arc-theme.git $themesfolder/Arc
 
 # Gnome-OSX
-git clone --progress --verbose https://github.com/paullinuxthemer/Gnome-OSX.git /usr/share/themes/Gnome-OSX
+$gitcl https://github.com/paullinuxthemer/Gnome-OSX.git $themesfolder/Gnome-OSX
 
 # Minwaita
-git clone --progress --verbose https://github.com/godlyranchdressing/Minwaita.git /usr/share/themes/Minwaita
+$gitcl https://github.com/godlyranchdressing/Minwaita.git $themesfolder/Minwaita
 
 # Arc Menu
-git clone --progress --verbose https://github.com/LinxGem33/Arc-Menu.git ~/Downloads/Arc-Menu
+$gitcl https://github.com/LinxGem33/Arc-Menu.git ~/Downloads/Arc-Menu
 cd ~/Downloads/Arc-Menu
 make install
 make enable
 
 # OSX-Arc-Darker
-git clone --progress --verbose https://github.com/LinxGem33/OSX-Arc-Darker.git /usr/share/themes/OSX-Arc-Darker
+$gitcl https://github.com/LinxGem33/OSX-Arc-Darker.git $themesfolder/OSX-Arc-Darker
 
 # OSX-Arc-Shadow
-git clone --progress --verbose https://github.com/LinxGem33/OSX-Arc-Shadow.git /usr/share/themes/OSX-Arc-Shadow
+$gitcl https://github.com/LinxGem33/OSX-Arc-Shadow.git $themesfolder/OSX-Arc-Shadow
 
 # OSX-Arc-White
-git clone --progress --verbose https://github.com/LinxGem33/OSX-Arc-White.git /usr/share/themes/OSX-Arc-White
+$gitcl https://github.com/LinxGem33/OSX-Arc-White.git $themesfolder/OSX-Arc-White
 
 # OSX-Arc-Plus
-git clone --progress --verbose https://github.com/LinxGem33/OSX-Arc-Plus.git /usr/share/themes/OSX-Arc-Plus
+$gitcl https://github.com/LinxGem33/OSX-Arc-Plus.git $themesfolder/OSX-Arc-Plus
 
 # ----------------------------------------------------------------------------------------
 
 # Icons
 
 # Sublime Text Icon
-cp sublime-text.png /usr/share/icons/
+cp sublime-text.png $iconsfolder/
 
 # Arc-OSX-Icons
-git clone --progress --verbose https://github.com/LinxGem33/Arc-OSX-Icons.git /usr/share/icons/Arc-OSX-Icons
-cd /usr/share/themes/Arc-OSX-Icons/src/
-cp -R * /usr/share/themes/
+$gitcl https://github.com/LinxGem33/Arc-OSX-Icons.git $iconsfolder/Arc-OSX-Icons
+cd $themesfolder/Arc-OSX-Icons/src/
+cp -R * $themesfolder/
 
 # Plane icon theme
-git clone --progress --verbose https://github.com/wfpaisa/plane-icon-theme.git /usr/share/icons/Plane
+$gitcl https://github.com/wfpaisa/plane-icon-theme.git $iconsfolder/Plane
 cd /usr/share/Plane
 cp -R src/* ../
 
 # Evolvere
-git clone --progress --verbose https://github.com/franksouza183/EvolvereSuit.git /usr/share/icons/Evolere
+$gitcl https://github.com/franksouza183/EvolvereSuit.git $iconsfolder/Evolere
 
 # Luv Icons
-git clone --progress --verbose https://github.com/Nitrux/luv-icon-theme.git /usr/share/icons/Luv-Icons
-cd /usr/share/icons/Luv-Icons
+$gitcl https://github.com/Nitrux/luv-icon-theme.git $iconsfolder/Luv-Icons
+cd $iconsfolder/Luv-Icons
 cp -R Luv ../Luv
 
 # Matrilineare
-git clone --progress --verbose https://github.com/n3storm/Matrilineare.git /usr/share/icons/Matrilineare
+$gitcl https://github.com/n3storm/Matrilineare.git $iconsfolder/Matrilineare
 
 # Xenlism Wildfire
-git clone --progress --verbose https://github.com/xenlism/wildfire.git /usr/share/icons/Xenlism-Wildfire
-cd /usr/share/icons/Xenlism-Wildfire/INSTALL
+$gitcl https://github.com/xenlism/wildfire.git $iconsfolder/Xenlism-Wildfire
+cd $iconsfolder/Xenlism-Wildfire/INSTALL
 ./git.install
 
 # Obsidian
-git clone --progress --verbose https://github.com/madmaxms/iconpack-obsidian.git /usr/share/icons/Obsidian
+$gitcl https://github.com/madmaxms/iconpack-obsidian.git $iconsfolder/Obsidian
 
 # Lila HD
-git clone --progress --verbose https://github.com/ilnanny/Lila-HD-icon-theme.git /usr/share/icons/Lila-HD
-cd /usr/share/icons/Lila-HD
+$gitcl https://github.com/ilnanny/Lila-HD-icon-theme.git $iconsfolder/Lila-HD
+cd $iconsfolder/Lila-HD
 ./install.sh
 
 # Emerald
-git clone --progress --verbose https://github.com/vinceliuice/emerald-icon-theme.git /usr/share/icons/Emerald
-cd /usr/share/icons/Emerald
+$gitcl https://github.com/vinceliuice/emerald-icon-theme.git $iconsfolder/Emerald
+cd $iconsfolder/Emerald
 ./Emerald-installer.sh
 
 # Paper
-git clone --progress --verbose https://github.com/snwh/paper-icon-theme.git /usr/share/icons/Paper
-cd /usr/share/icons/Paper
+$gitcl https://github.com/snwh/paper-icon-theme.git $iconsfolder/Paper
+cd $iconsfolder/Paper
 cp -R Paper ../Paper-Icons
 
 # Flat Remix
-git clone --progress --verbose https://github.com/daniruiz/Flat-Remix.git /usr/share/icons/Flat-Remix
-cd /usr/share/icons/Flat-Remix
+$gitcl https://github.com/daniruiz/Flat-Remix.git $iconsfolder/Flat-Remix
+cd $iconsfolder/Flat-Remix
 cp -R Flat\ Remix ../Flat\ Remix
 
 # Elementary Add
-git clone --progress --verbose https://github.com/varlesh/elementary-add.git /usr/share/icons/elementary-add-holing
-cd /usr/share/icons/elementary-add-holding
+$gitcl https://github.com/varlesh/elementary-add.git $iconsfolder/elementary-add-holing
+cd $iconsfolder/elementary-add-holding
 cp -R elementary-* ../
 cd ../ && rm -rf elementary-add-holding
 
 # ----------------------------------------------------------------------------------------
-
-
