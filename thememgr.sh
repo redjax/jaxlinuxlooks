@@ -1,22 +1,48 @@
 #!/bin/bash
 
 #
-# Applet to manage installation of themes
+# Applet to manage installation and backup of themes and icons
 #
 
+# Variables ------------------------------------------------------------------
+
+# Dirs on local machine
 THEME_DIR=$HOME"/.themes"
 ICON_DIR=$HOME"/.local/share/icons"
 STAGE_DIR=$HOME"/Downloads/themes"
 
 #BACKUP_DIR=$HOME"/backup"
 BACKUP_DIR=./backup
-#THEME_BACKUP_DIR=$BACKUP_DIR"/themes"
-THEME_BACKUP_DIR="./backup/themes"
-#ICON_BACKUP_DIR=$BACKUP_DIR"/icons"
-ICON_BACKUP_DIR="./backup/icons"
+THEME_BACKUP_DIR="./backup/themes/"
+ICON_BACKUP_DIR="./backup/icons/"
 
+# Necessary installed software. Will be checked before running extract()
 DEPEND_ARRAY=( "unzip" "rsync" )
 
+# Functions ------------------------------------------------------------------
+
+function usage() {
+  echo "Usage: $0 [-h|--help] [-b | --backup] [-r | --restore] [-s | --setup]"
+  echo ""
+  echo "-h | --help: Run program's help menu"
+  echo "-b | --backup: Run backup job for themes and icons"
+  echo "-r | --restore: Run restore job to install themes from repo"
+  echo "-s | --setup: Run inital setup"
+}
+
+INSTALL_DEPENDENCIES () {
+    # Check if dependencies installed, install if not
+    for DEP in "${DEPEND_ARRAY[@]}"
+    do
+        if ! command -v $DEP &> /dev/null
+        then
+            echo ""
+            echo "Dependency "$DEP" not installed. Installing..."
+            echo ""
+            sudo apt install -y $DEP
+        fi
+    done
+}
 
 SETUP () {
     # Create backup dir if it doesn't exist
@@ -34,20 +60,13 @@ SETUP () {
         echo ""
     fi
 
-    # Check if dependencies installed, install if not
-    for DEP in "${DEPEND_ARRAY[@]}"
-    do
-        if ! command -v $DEP &> /dev/null
-        then
-            echo ""
-            echo "Dependency "$DEP" not installed. Installing..."
-            echo ""
-            sudo apt install -y $DEP
-        fi
-    done
+    INSTALL_DEPENDENCIES
 }
 
 EXTRACT () {
+    # Run INSTALL_DEPENDENCIES to ensure archive software is installed
+    INSTALL_DEPENDENCIES
+
     # Extract function
      if [ -f $1 ] ; then
          case $1 in
@@ -69,7 +88,7 @@ EXTRACT () {
      fi
 }
 
-SYNCHRONIZE () {
+BACKUP () {
     echo "Synching themes to "$THEME_BACKUP_DIR
     echo ""
     rsync -r $THEME_DIR/* $THEME_BACKUP_DIR
@@ -89,7 +108,7 @@ RESTORE () {
         mkdir -pv $THEME_DIR
     fi
     
-    rsync -r $THEME_BACKUP_DIR/* $THEME_DIR
+    rsync -rla --ignore-existing $THEME_BACKUP_DIR/* $THEME_DIR
 
     echo "Restoring icons to "$ICON_DIR
     echo ""
@@ -98,7 +117,45 @@ RESTORE () {
         mkdir -pv $ICON_DIR
     fi
     
-    rsync -r $ICON_BACKUP_DIR/* $ICON_DIR
+    rsync -rla --ignore-existing $ICON_BACKUP_DIR/* $ICON_DIR
 }
 
-SYNCHRONIZE
+main () {
+
+    if [[ $# -eq 0 ]] ; then
+        # no args passed, print usage help
+        usage
+    else
+        # Run a case statement for passed flags
+        while [[ "$1" == -* ]]; do
+            case "$1" in
+                -s|--setup )
+                    SETUP
+                    ;;
+                -b|--backup )
+                    BACKUP
+                    ;;
+                -r|--restore )
+                    RESTORE
+                    ;;
+                -h|--help )
+                    usage
+                    exit 0
+                    ;;
+                * )
+                    # Nothing/unsupported flag passed, print usage
+                    echo "Unrecognized option $1." && usage && exit 1 
+                    ;;
+                -- ) 
+                    shift
+                    break
+                    ;;
+            esac
+            shift
+        done
+    fi
+
+    exit 0
+}
+
+main $@
