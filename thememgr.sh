@@ -32,7 +32,7 @@ function usage() {
   echo "-s | --setup: Run inital setup"
 }
 
-INSTALL_DEPENDENCIES () {
+function INSTALL_DEPENDENCIES () {
     # Check if dependencies installed, install if not
     for DEP in "${DEPEND_ARRAY[@]}"
     do
@@ -46,7 +46,7 @@ INSTALL_DEPENDENCIES () {
     done
 }
 
-SETUP () {
+function SETUP () {
     # Create backup dir if it doesn't exist
     if [[ ! -d $BACKUP_DIR ]]; then
         echo "Backup directory "$BACKUP_DIR" does not exist. Creating..."
@@ -73,7 +73,7 @@ SETUP () {
     INSTALL_DEPENDENCIES
 }
 
-EXTRACT () {
+function EXTRACT () {
     # Run INSTALL_DEPENDENCIES to ensure archive software is installed
     INSTALL_DEPENDENCIES
 
@@ -98,28 +98,31 @@ EXTRACT () {
      fi
 }
 
-SYNCHRONIZE () {
+function SYNCHRONIZE () {
     # Run rsync command
     rsync -rla $1 $2
 
 }
 
-BACKUP () {
+function BACKUP () {
     echo "Synching themes to "$THEME_BACKUP_DIR
     echo ""
+
     SYNCHRONIZE $THEME_DIR/* $THEME_BACKUP_DIR
 
     echo "Synching icons to "$ICON_BACKUP_DIR
     echo ""
+
     SYNCHRONIZE $ICON_DIR/* $ICON_BACKUP_DIR
 
     echo "Synching fonts to "$FONT_BACKUP_DIR
     echo ""
+    
     SYNCHRONIZE $FONT_DIR/* $FONT_BACKUP_DIR
 
 }
 
-RESTORE () {
+function RESTORE () {
     # On a new machine, run RESTORE to move icons and themes into place
     echo "Restoring themes to "$THEME_DIR
     echo ""
@@ -149,7 +152,7 @@ RESTORE () {
     SYNCHRONIZE $FONT_BACKUP_DIR/* $FONT_DIR
 }
 
-main () {
+function main () {
 
     if [[ $# -eq 0 ]] ; then
         # no args passed, print usage help
