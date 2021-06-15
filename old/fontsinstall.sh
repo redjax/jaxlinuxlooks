@@ -2,10 +2,6 @@
 
 # Fonts install
 
-cd /home/jack/Downloads/test
-mkdir test
-chown test
-
 git clone --verbose https:/github.com/i-tu/Hasklig.git /home/jack/Downloads/test/hasklig
 
 # DejaVu Sans Code

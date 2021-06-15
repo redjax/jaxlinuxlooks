@@ -10,11 +10,13 @@
 THEME_DIR=$HOME"/.themes"
 ICON_DIR=$HOME"/.local/share/icons"
 STAGE_DIR=$HOME"/Downloads/themes"
+FONT_DIR=$HOME"/.fonts"
 
 #BACKUP_DIR=$HOME"/backup"
 BACKUP_DIR=./backup
 THEME_BACKUP_DIR="./backup/themes/"
 ICON_BACKUP_DIR="./backup/icons/"
+FONT_BACKUP_DIR="./backup/fonts/"
 
 # Necessary installed software. Will be checked before running extract()
 DEPEND_ARRAY=( "unzip" "rsync" )
@@ -60,6 +62,14 @@ SETUP () {
         echo ""
     fi
 
+    if [[ ! -d $FONT_DIR ]]; then
+        echo "Fonts dir: "$FONT_DIR" does not exist. Creating..."
+        echo ""
+
+        mkdir -pv $FONT_DIR
+        echo "Fonts directory created."
+    fi
+
     INSTALL_DEPENDENCIES
 }
 
@@ -88,14 +98,24 @@ EXTRACT () {
      fi
 }
 
+SYNCHRONIZE () {
+    # Run rsync command
+    rsync -rla $1 $2
+
+}
+
 BACKUP () {
     echo "Synching themes to "$THEME_BACKUP_DIR
     echo ""
-    rsync -r $THEME_DIR/* $THEME_BACKUP_DIR
+    SYNCHRONIZE $THEME_DIR/* $THEME_BACKUP_DIR
 
     echo "Synching icons to "$ICON_BACKUP_DIR
     echo ""
-    rsync -r $ICON_DIR/* $ICON_BACKUP_DIR
+    SYNCHRONIZE $ICON_DIR/* $ICON_BACKUP_DIR
+
+    echo "Synching fonts to "$FONT_BACKUP_DIR
+    echo ""
+    SYNCHRONIZE $FONT_DIR/* $FONT_BACKUP_DIR
 
 }
 
@@ -108,7 +128,7 @@ RESTORE () {
         mkdir -pv $THEME_DIR
     fi
     
-    rsync -rla --ignore-existing $THEME_BACKUP_DIR/* $THEME_DIR
+    SYNCHRONIZE $THEME_BACKUP_DIR/* $THEME_DIR
 
     echo "Restoring icons to "$ICON_DIR
     echo ""
@@ -117,7 +137,16 @@ RESTORE () {
         mkdir -pv $ICON_DIR
     fi
     
-    rsync -rla --ignore-existing $ICON_BACKUP_DIR/* $ICON_DIR
+    SYNCHRONIZE $ICON_BACKUP_DIR/* $ICON_DIR
+
+    echo "Restoring fonts to"$FONT_DIR
+    echo ""
+
+    if [[ ! -d $FONT_DIR ]]; then
+        mkdir -pv $FONT_DIR
+    fi
+
+    SYNCHRONIZE $FONT_BACKUP_DIR/* $FONT_DIR
 }
 
 main () {
